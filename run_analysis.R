@@ -16,6 +16,9 @@ if (!require("reshape2")) {
 require("data.table")
 require("reshape2")
 
+## grab current directory to return to at the end
+curdir <- getwd()
+
 # Load: activity labels
 activity_labels <- read.table("./UCI HAR Dataset/activity_labels.txt")[,2]
 
@@ -72,4 +75,7 @@ melt_data   = melt(data, id = id_labels, measure.vars = data_labels)
 # Apply mean function to dataset using dcast function
 tidy_data   = dcast(melt_data, subject + Activity_Label ~ variable, mean)
 
+# return user to original directory
+setwd(curdir)
+  
 write.table(tidy_data, file = "./tidy.txt")
